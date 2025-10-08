@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Welcome to Your Dashboard</h1>
+  <div id="user-dashboard"></div>
+
+  <script>
+    const email = prompt("Enter your email to view your application:");
+    const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+    const app = apps.find(a => a.email === email);
+    const container = document.getElementById('user-dashboard');
+
+    if (app) {
+      container.innerHTML = `
+        <div class="job-card">
+          <h2>${app.name}</h2>
+          <p><strong>Role:</strong> ${app.role}</p>
+          <p><strong>Status:</strong> ${app.status || 'Submitted'}</p>
+          <p><strong>Education:</strong> ${app.education}</p>
+          <p><strong>Resume:</strong> Uploaded</p>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `<p>No application found for ${email}</p>`;
+    }
+    document.querySelectorAll('.step').forEach(step => {
+  if (step.classList.contains(app.status?.toLowerCase())) {
+    step.style.border = "2px solid #ff6f00";
+  }
+});
+
+  </script>
+  <div class="timeline">
+  <div class="step submitted">Submitted</div>
+  <div class="step review">Under Review</div>
+  <div class="step shortlisted">Shortlisted</div>
+  <div class="step rejected">Rejected</div>
+</div>
+
+</body>
+</html>

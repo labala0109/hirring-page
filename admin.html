@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Veridia Admin Panel</h1>
+  <select id="roleFilter">
+    <option value="">All Roles</option>
+    <option value="Frontend Developer">Frontend Developer</option>
+    <option value="Backend Developer">Backend Developer</option>
+    <option value="IoT Engineer">IoT Engineer</option>
+  </select>
+  <div id="admin-applications"></div>
+
+  <script>
+    const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+    const container = document.getElementById('admin-applications');
+    const filter = document.getElementById('roleFilter');
+
+    function renderApps(role = '') {
+      container.innerHTML = '';
+      apps.filter(app => !role || app.role === role).forEach((app, i) => {
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <h2>${app.name}</h2>
+          <p><strong>Role:</strong> ${app.role}</p>
+          <p><strong>Email:</strong> ${app.email}</p>
+          <p><strong>Status:</strong> ${app.status || 'Submitted'}</p>
+          <button onclick="updateStatus(${i}, 'Shortlisted')">Shortlist</button>
+          <button onclick="updateStatus(${i}, 'Rejected')">Reject</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updateStatus(index, status) {
+      apps[index].status = status;
+      localStorage.setItem('applications', JSON.stringify(apps));
+      renderApps(filter.value);
+    }
+
+    filter.onchange = () => renderApps(filter.value);
+    renderApps();
+    function exportCSV() {
+  let csv = "Name,Email,Role,Education,Status\n";
+  apps.forEach(app => {
+    csv += `${app.name},${app.email},${app.role},${app.education},${app.status || 'Submitted'}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = "veridia_applications.csv";
+  link.click();
+}
+
+  const allowedPassword = "veridia123"; // You can change this to anything secure
+  const entered = prompt("Enter admin password:");
+
+  if (entered !== allowedPassword) {
+    alert("Access denied. You are not authorized.");
+    window.location.href = "index.html"; // Redirect to public page
+  }
+</script>
+
+
+  <button onclick="exportCSV()">Export to CSV</button>
+
+</body>
+</html>

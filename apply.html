@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Apply for Job</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Apply for <span id="job-role"></span></h1>
+  <form id="applicationForm" onsubmit="submitApplication(event)">
+  <input type="text" id="name" placeholder="Full Name" required />
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="text" id="phone" placeholder="Phone Number" required />
+  <input type="text" id="education" placeholder="Education Details" required />
+  <input type="file" id="resume" accept=".pdf" required />
+  <button type="submit">Submit Application</button>
+</form>
+
+<div id="successMessage" style="display:none; margin-top:2rem; font-weight:bold; color:#2e7d32;">
+  ✅ Successfully Applied! Thank you for submitting your application.
+</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('job-role').textContent = params.get('role');
+ 
+  function submitApplication(e) {
+    e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('role');
+
+    const application = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      education: document.getElementById('education').value,
+      role: role,
+      status: "Submitted"
+    };
+
+    const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+    apps.push(application);
+    localStorage.setItem('applications', JSON.stringify(apps));
+
+    document.getElementById('applicationForm').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+
+    // Optional: Redirect after 3 seconds
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>

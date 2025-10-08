@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome to Veridia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .splash-container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 1.5s ease;
+    }
+    .splash-container h1 {
+      font-size: 3rem;
+      color: #ff6f00;
+      margin-bottom: 1rem;
+    }
+    .splash-container p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+    .enter-btn {
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      background: #ff6f00;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .enter-btn:hover {
+      background: #ff9800;
+    }
+    .spinner {
+      margin-top: 2rem;
+      font-size: 2rem;
+      color: #ff6f00;
+      display: none;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <h1><i class="fas fa-briefcase"></i> Veridia Careers</h1>
+    <p>Welcome to our hiring portal. Discover your future with us.</p>
+    <button class="enter-btn" onclick="enterSite()">Enter Site</button>
+    <div class="spinner" id="spinner"><i class="fas fa-circle-notch"></i></div>
+  </div>
+
+  <script>
+    function enterSite() {
+      document.getElementById('spinner').style.display = 'inline-block';
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000); // 2-second delay
+    }
+  </script>
+</body>
+</html>
